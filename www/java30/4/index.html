@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Array</title>
+</head>
+
+<body>
+    <p><em>Psssst Checa En La consola</em></p>
+    <script>
+        // Get your shorts on - this is an array workout!
+        // ## Array Cardio Day 1
+        // Some data we can work with
+        const heroe = [{
+            first: 'Miguel',
+            last: 'Hidalgo',
+            year: 1753,
+            passed: 1811
+        }, {
+            first: 'Jose',
+            last: 'Morelos',
+            year: 1765,
+            passed: 1815
+        }, {
+            first: 'Vicente',
+            last: 'Guerrero',
+            year: 1782,
+            passed: 1831
+        }, {
+            first: 'Marie',
+            last: 'Curie',
+            year: 1867,
+            passed: 1934
+        }, {
+            first: 'Fransisco',
+            last: 'Mina',
+            year: 1789,
+            passed: 1817
+        }, {
+            first: 'Pancho',
+            last: 'Villa',
+            year: 1878,
+            passed: 1923
+        }, {
+            first: 'Guadalupe',
+            last: 'Victoria',
+            year: 1786,
+            passed: 1843
+        }, {
+            first: 'Miguel',
+            last: 'Barragan',
+            year: 1789,
+            passed: 1837
+        }, {
+            first: 'Ignacio',
+            last: 'Allende',
+            year: 1769,
+            passed: 1811
+        }, {
+            first: 'Emiliano',
+            last: 'Zapata',
+            year: 1879,
+            passed: 1919
+        }, {
+            first: 'Fransisco',
+            last: 'Madero',
+            year: 1873,
+            passed: 1913
+        }, {
+            first: 'Leona',
+            last: 'Vicario',
+            year: 1789,
+            passed: 1842
+        }];
+        const people = ['Beck, Glenn', 'Becker, Carl', 'Beckett, Samuel', 'Beddoes, Mick',
+            'Beecher, Henry', 'Beethoven, Ludwig', 'Begin, Menachem', 'Belloc, Hilaire', 'Bellow, Saul',
+            'Benchley, Robert', 'Benenson, Peter', 'Ben-Gurion, David', 'Benjamin, Walter', 'Benn, Tony',
+            'Bennington, Chester', 'Benson, Leana', 'Bent, Silas', 'Bentsen, Lloyd', 'Berger, Ric',
+            'Bergman, Ingmar', 'Berio, Luciano', 'Berle, Milton', 'Berlin, Irving', 'Berne, Eric',
+            'Bernhard, Sandra', 'Berra, Yogi', 'Berry, Halle', 'Berry, Wendell', 'Bethea, Erin', 'Bevan, Aneurin',
+            'Bevel, Ken', 'Biden, Joseph', 'Bierce, Ambrose', 'Biko, Steve', 'Billings, Josh', 'Biondo, Frank',
+            'Birrell, Augustine', 'Black Elk', 'Blair, Robert', 'Blair, Tony', 'Blake, William'
+        ];
+        // Array.prototype.filter()
+        // 1. Filter the list of heroe for those who were born in the 1500's
+        const fifteen = heroe.filter(heroe => (heroe.year >= 1500 && heroe.year < 1800));
+        console.table(fifteen);
+        // Array.prototype.map()
+        // 2. Give us an array of the heroe first and last names
+        const fullNames = heroe.map(heroe => `${heroe.first} ${heroe.last}`);
+        console.log(fullNames);
+        // Array.prototype.sort()
+        // 3. Sort the heroes by birthdate, oldest to youngest
+        // const ordered = heroes.sort(function(a, b) {
+        //   if(a.year > b.year) {
+        //     return 1;
+        //   } else {
+        //     return -1;
+        //   }
+        // });
+        const ordered = heroe.sort((a, b) => a.year > b.year ? 1 : -1);
+        console.table(ordered);
+        // Array.prototype.reduce()
+        // 4. How many years did all the heroes live?
+        const totalYears = heroe.reduce((total, heroe) => {
+            return total + (heroe.passed - heroe.year);
+        }, 0);
+        console.log(totalYears);
+        // 5. Sort the heroes by years lived
+        const oldest = heroe.sort(function(a, b) {
+            const lastheroe = a.passed - a.year;
+            const nextheroe = b.passed - b.year;
+            return lastheroe > nextheroe ? -1 : 1;
+        });
+        console.table(oldest);
+        // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
+        // const category = document.querySelector('.mw-category');
+        // const links = Array.from(category.querySelectorAll('a'));
+        // const de = links
+        //             .map(link => link.textContent)
+        //             .filter(streetName => streetName.includes('de'));
+        // 7. sort Exercise
+        // Sort the people alphabetically by last name
+        const alpha = people.sort((lastOne, nextOne) => {
+            const [aLast, aFirst] = lastOne.split(', ');
+            const [bLast, bFirst] = nextOne.split(', ');
+            return aLast > bLast ? 1 : -1;
+        });
+        console.log(alpha);
+        // 8. Reduce Exercise
+        // Sum up the instances of each of these
+        const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
+        const transportation = data.reduce(function(obj, item) {
+            if (!obj[item]) {
+                obj[item] = 0;
+                s
+            }
+            obj[item]++;
+            return obj;
+        }, {});
+        console.log(transportation);
+    </script>
+</body>
+
+</html>

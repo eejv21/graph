@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Imagenes Pros</title>
+    <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <style>
+        html {
+            box-sizing: border-box;
+            background: #17202A;
+            font-family: 'helvetica neue';
+            font-size: 20px;
+            font-weight: 200;
+        }
+        
+        body {
+            margin: 0;
+        }
+        
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+        
+        .panels {
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+        
+        .panel {
+            background: #6B0F9C;
+            box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            align-items: center;
+            /* Safari transitionend event.propertyName === flex */
+            /* Chrome + FF transitionend event.propertyName === flex-grow */
+            transition: font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), background 0.2s;
+            font-size: 20px;
+            background-size: cover;
+            background-position: center;
+            flex: 1;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel1 {
+            background-image: url(https://orig03.deviantart.net/b999/f/2012/351/b/8/i__ve_only_played_zelda_once_for_like_an_hour_by_delta105-d5odn9b.png);
+        }
+        
+        .panel2 {
+            background-image: url(https://orig05.deviantart.net/27f0/f/2013/004/9/b/link__the_legend__ii_full_hd_wallpaper_by_soenkesadventure-d5qfgte.jpg);
+        }
+        
+        .panel3 {
+            background-image: url(https://img04.deviantart.net/7c90/i/2014/122/3/d/sands_of_time_by_charlesdraws-d7gw6kw.jpg);
+        }
+        
+        .panel4 {
+            background-image: url(https://orig04.deviantart.net/81d0/f/2017/079/0/f/the_legend_of_zelda___breath_of_the_wild_by_pyrogas_artworks-db2zf69.jpg);
+        }
+        /* Flex Items */
+        
+        .panel>* {
+            margin: 0;
+            width: 100%;
+            transition: transform 0.5s;
+            flex: 1 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .panel>*:first-child {
+            transform: translateY(-100%);
+        }
+        
+        .panel.open-active>*:first-child {
+            transform: translateY(0);
+        }
+        
+        .panel>*:last-child {
+            transform: translateY(100%);
+        }
+        
+        .panel.open-active>*:last-child {
+            transform: translateY(0);
+        }
+        
+        .panel p {
+            text-transform: uppercase;
+            font-family: 'Amatic SC', cursive;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
+            font-size: 2em;
+        }
+        
+        .panel p:nth-child(2) {
+            font-size: 4em;
+        }
+        
+        .panel.open {
+            flex: 5;
+            font-size: 40px;
+        }
+    </style>
+
+
+    <div class="panels">
+        <div class="panel panel1">
+            <p>A Través De</p>
+            <p>El</p>
+            <p>Tiempo</p>
+        </div>
+        <div class="panel panel2">
+            <p>Rompe El</p>
+            <p>Flujo</p>
+            <p>Que Te Dictan</p>
+        </div>
+        <div class="panel panel3">
+            <p>En La Lejania</p>
+            <p>Del</p>
+            <p>Vasto Desierto</p>
+        </div>
+        <div class="panel panel4">
+            <p>Dame Todo El</p>
+            <p>Tiempo</p>
+            <p>Para Llegar</p>
+        </div>
+
+    </div>
+
+    <script>
+        const panels = document.querySelectorAll('.panel');
+
+        function toggleOpen() {
+            console.log('Hello');
+            this.classList.toggle('open');
+        }
+
+        function toggleActive(e) {
+            console.log(e.propertyName);
+            if (e.propertyName.includes('flex')) {
+                this.classList.toggle('open-active');
+            }
+        }
+        panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+        panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+    </script>
+
+</body>
+
+</html>
