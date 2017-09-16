@@ -10,14 +10,14 @@
 <body>
 
     <form class="search-form">
-        <input type="text" class="search" placeholder="City or State">
+        <input type="text" class="search">
         <ul class="suggestions">
-            <li>Filter for a city</li>
-            <li>or a state</li>
+            <li>Escribe Chihuahua o Parral</li>
+
         </ul>
     </form>
     <script>
-        const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+        const endpoint = 'https://gist.githubusercontent.com/anonymous/50c69b84657037054780ee4b793b18e9/raw/4e76ff6dd91ebc3cf1417c798c18fd3489992eee/gistfile1.txt';
         const cities = [];
         fetch(endpoint)
             .then(blob => blob.json())
@@ -25,7 +25,6 @@
 
         function findMatches(wordToMatch, cities) {
             return cities.filter(place => {
-                // here we need to figure out if the city or state matches what was searched
                 const regex = new RegExp(wordToMatch, 'gi');
                 return place.city.match(regex) || place.state.match(regex)
             });
