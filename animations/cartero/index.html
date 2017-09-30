@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+        @keyframes cartero {
+            from {
+                background-position: 0px;
+            }
+            to {
+                background-position: -450px;
+            }
+        }
+        
+        @-ms-keyframes cartero {
+            from {
+                background-position: 0px;
+            }
+            to {
+                background-position: -450px;
+            }
+        }
+        
+        @-o-keyframes cartero {
+            from {
+                background-position: 0px;
+            }
+            to {
+                background-position: -450px;
+            }
+        }
+        
+        @-webkit-keyframes cartero {
+            from {
+                background-position: 0px;
+            }
+            to {
+                background-position: -450px;
+            }
+        }
+        
+        @-moz-keyframes cartero {
+            from {
+                background-position: 0px;
+            }
+            to {
+                background-position: -450px;
+            }
+        }
+        
+        .recorte {
+            width: 30px;
+            height: 55px;
+            background-image: url("gun.png");
+            -ms-animation: cartero .3s steps(3, end) infinite;
+            -webkit-animation: cartero .3s steps(3, end) infinite;
+            -moz-animation: cartero .3s steps(3, end) infinite;
+            -o-animation: cartero .3s steps(3, end) infinite;
+            animation: cartero .3s steps(3, end) infinite;
+        }
+    </style>
+
+    <script>
+        function startAnimation() {
+            document.getElementById("recorte").style.MsAnimationPlayState = "running";
+            document.getElementById("recorte").style.webkitAnimationPlayState = "running";
+            document.getElementById("recorte").style.MozAnimationPlayState = "running";
+            document.getElementById("recorte").style.OAnimationPlayState = "running";
+            document.getElementById("recorte").style.animationPlayState = "running";
+        }
+    </script>
+
+</head>
+
+<body style="background-image: url(fondo.jpg); background-repeat: no-repeat;">
+    <div id="recorte" class="recorte"></div>
+
+</body>
+
+</html>
