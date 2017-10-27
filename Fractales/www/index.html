@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var Wextensible = {},
+            wxG;
+        var wx, cwx, ww, wlim, nwx, opcion;
+        var wxb, cwxb, wb, hb, wlimb, wlimh, nwxb, opcionb;
+        var wxc, cwxc, wc, hc, xn, yn, numPuntos, numPasos, iterN, vert, opcionc;
+        var wxd, cwxd, wd, hd, wlimd, hlimd, opciond, wdPaso, hdPaso, nPasoD;
+        var wxe, cwxe, we, he, lado, altura, opcione, wlime, ladoPaso;
+
+        //#################EJEMPLO 1#########################//
+        function iniciarEjemplo_wx() {
+            wx = document.getElementById("wx");
+            if (wx.getContext)
+                cwx = wx.getContext("2d");
+            ww = wx.width;
+            wlim = 1;
+            nwx = 1 / 3;
+            opcion = "fractal";
+            ejecutarFractal();
+        }
+
+        function ejecutarFractal() {
+            if (cwx) {
+                cwx.clearRect(0, 0, wx.width, wx.height);
+                cwx.lineWidth = 1;
+                cwx.strokeStyle = "green";
+                cwx.fillStyle = "green";
+                if (opcion != "pasos") {
+                    wlim = 1;
+                    fractal(ww, ww, ww);
+                } else {
+                    cwx.clearRect(0, 0, wx.width, wx.height);
+                    fractal(ww, ww, ww);
+                    nwx = nwx * 3;
+                    var men = "Pinta " + nwx + " cuadrados de " + wlim + " x " + wlim + " píxeles.";
+                    wlim = wlim / 2;
+                    if (wlim < 1) {
+                        men += "<br />FINALIZADO con 1 píxel de resolución.";
+                        wlim = ww / 2;
+                        nwx = 1 / 3;
+                    }
+                    document.getElementById("men-wx").innerHTML = men;
+                }
+            }
+        }
+
+        function fractal(x, y, wa) {
+            var w = wa / 2;
+            if (w >= wlim) {
+                var x1 = x - w;
+                var y1 = y - w;
+                var x2 = x + w;
+                var y2 = y - w;
+                var x3 = x - w;
+                var y3 = y + w;
+                fractal(x1, y1, w);
+                if (wa != ww) {
+                    fractal(x2, y2, w);
+                    fractal(x3, y3, w);
+                }
+            }
+            dibujarForma(x1, y1, x2, y2, x3, y3, w);
+        }
+
+        function dibujarForma(x1, y1, x2, y2, x3, y3, w) {
+            if (opcion == "formas") {
+                cwx.strokeRect(x1, y1, w, w);
+                if ((2 * w) != ww) {
+                    cwx.strokeRect(x2, y2, w, w);
+                    cwx.strokeRect(x3, y3, w, w);
+                }
+            } else {
+                cwx.fillRect(x1, y1, w, w);
+                if ((2 * w) != ww) {
+                    cwx.fillRect(x2, y2, w, w);
+                    cwx.fillRect(x3, y3, w, w);
+                }
+            }
+        }
+
+        //#################EJEMPLO2#########################//
+        function iniciarEjemplo_wxb() {
+            wxb = document.getElementById("wxb");
+            if (wxb.getContext)
+                cwxb = wxb.getContext("2d");
+            wb = wxb.width;
+            hb = wxb.height;
+            wlimb = 1;
+            wlimh = 1;
+            nwxb = 0;
+            opcionb = "fractal";
+            ejecutarFractalB();
+        }
+
+        function ejecutarFractalB() {
+            if (cwxb) {
+                cwxb.clearRect(0, 0, wxb.width, wxb.height);
+                cwxb.lineWidth = 1;
+                cwxb.strokeStyle = "red";
+                cwxb.fillStyle = "red";
+                if (opcionb != "pasos") {
+                    wlimb = 1;
+                    wlimh = 1;
+                    fractalB(wb / 2, 0, wb, hb);
+                } else {
+                    var men = "";
+                    if (wlimb == wb / 2) {
+                        men = "Partimos de un triángulo en azul que no es necesario " + "dibujarlo, pero que ahora lo ponemos para ver estos " + "pasos. ";
+                    }
+                    cwxb.clearRect(0, 0, wxb.width, wxb.height);
+                    trianguloExterior();
+                    fractalB(wb / 2, 0, wb, hb);
+                    nwxb = nwxb * 3;
+                    men += "Pinta " + nwxb + " triángulos rojos de base x altura = " + wlimb + " x " + wlimh + " píxeles";
+                    wlimb = wlimb / 2;
+                    wlimh = wlimh / 2;
+                    if ((wlimb < 1) || (wlimh < 1)) {
+                        wlimb = wb / 2;
+                        wlimh = hb / 2;
+                        nwxb = 1 / 3;
+                        men += "<br />FINALIZADO con 1 píxel de resolución.";
+                    }
+                    document.getElementById("men-wxb").innerHTML = men;
+                }
+            }
+        }
+
+        function trianguloExterior() {
+            cwxb.strokeStyle = "blue";
+            cwxb.beginPath();
+            cwxb.moveTo(wb / 2, 0);
+            cwxb.lineTo(wb, hb);
+            cwxb.lineTo(0, hb);
+            cwxb.lineTo(wb / 2, 0);
+            cwxb.stroke();
+            cwxb.closePath();
+            cwxb.strokeStyle = "red";
+        }
+
+        function dibujarFormaB(x1, y1, x2, y2, x3, y3) {
+            cwxb.beginPath();
+            cwxb.moveTo(x1, y1);
+            cwxb.lineTo(x2, y2);
+            cwxb.lineTo(x3, y3);
+            cwxb.lineTo(x1, y1);
+            cwxb.stroke();
+            cwxb.closePath();
+        }
+
+        function fractalB(x, y, ba, ha) {
+            var b = ba / 2;
+            var h = ha / 2;
+            if ((b >= wlimb) && (h >= wlimh)) {
+                var x2 = x + b / 2;
+                var y2 = y + h;
+                var x3 = x - b / 2;
+                var y3 = y + h;
+                fractalB(x, y, b, h);
+                fractalB(x2, y2, b, h);
+                fractalB(x3, y3, b, h);
+            }
+            dibujarFormaB(x, y + 2 * h, x2, y2, x3, y3);
+        }
+
+        //#################EJEMPLO 3#########################//
+        function iniciarEjemplo_wxc() {
+            wxc = document.getElementById("wxc");
+            if (wxc.getContext)
+                cwxc = wxc.getContext("2d");
+            wc = wxc.width;
+            hc = wxc.height;
+            xn = 0;
+            yn = 0;
+            numPuntos = 20000;
+            numPasos = 1;
+            iterN = 0;
+            vert = [
+                [wc / 2, 0],
+                [wc, hc],
+                [0, hc]
+            ];
+            opcionc = "fractal";
+            ejecutarFractalC();
+        }
+
+        function ejecutarFractalC() {
+            if (cwxc) {
+                cwxc.lineWidth = 1;
+                cwxc.fillStyle = "blue";
+                var kc = 2 * hc / wc;
+                if (opcionc != "puntos") {
+                    xn = Math.floor(wc * Math.random());
+                    var yt = 0;
+                    if (xn < wc / 2) {
+                        yt = -kc * xn + hc;
+                    } else {
+                        yt = kc * xn - hc;
+                    }
+                    yn = -1;
+                    var ii = 0;
+                    while (yn < yt) {
+                        yn = Math.floor(hc * Math.random());
+                        ii++;
+                        if (ii > 100)
+                            break;
+                    }
+                }
+                if (opcionc == "fractal") {
+                    cwxc.clearRect(0, 0, wc, hc);
+                    fractalC(xn, yn, numPuntos);
+                } else {
+                    var men = "";
+                    if (iterN == 0) {
+                        cwxc.clearRect(0, 0, wc, hc);
+                        cwxc.strokeStyle = "red";
+                        cwxc.beginPath();
+                        cwxc.moveTo(vert[0][0], vert[0][1]);
+                        cwxc.lineTo(vert[1][0], vert[1][1]);
+                        cwxc.lineTo(vert[2][0], vert[2][1]);
+                        cwxc.lineTo(vert[0][0], vert[0][1]);
+                        cwxc.stroke();
+                        cwxc.closePath();
+                        if (opcionc == "pasos") {
+                            cwxc.fillStyle = "navy";
+                            cwxc.fillRect(xn - 5, yn - 5, 10, 10);
+                            cwxc.fillStyle = "yellow";
+                            cwxc.fillRect(xn - 1, yn - 1, 2, 2);
+                            cwxc.fillStyle = "blue";
+                        }
+                        cwxc.moveTo(xn, yn);
+                        if (opcionc == "puntos") {
+                            cwxc.fillStyle = "red";
+                            cwxc.fillRect(xn - 2, yn - 2, 4, 4);
+                        }
+                        men = "Partimos de un triángulo que no es necesario " + "dibujarlo, pero que ahora lo ponemos en rojo para ver estos " + "pasos. Entonces se elige un punto aleatorio (" + Math.round(xn) + "," + Math.round(yn) + ") situado en el interior de ese triángulo, que  " + "tampoco hace falta dibujarlo pero que lo ponemos diferenciado " + "para apreciarlo. ";
+                        if (opcionc == "puntos") {
+                            men += "El punto generado aparecerá en color rojo y " + "el de la generación anterior se le cambiará el color a azul. ";
+                        }
+                    } else {
+                        men += "Partiendo del punto generado (" + Math.round(xn) + "," + Math.round(yn) + ") pintamos " + numPuntos + " puntos  posicionados a la mitad de uno de los tres " + "vértices elegido aleatoriamente. Llevamos acumulados: " + (iterN) * numPuntos + ".";
+                        fractalC(xn, yn, numPuntos);
+                    }
+                    iterN++;
+                    if (iterN > numPasos) {
+                        men += "<br />FINALIZADO";
+                        cargaOpcionesC(opcionc);
+                    }
+                    document.getElementById("men-wxc").innerHTML = men;
+                }
+            }
+        }
+
+        function fractalC(x, y, numPuntos) {
+            for (var i = 0; i < numPuntos; i++) {
+                var vn = ((parseInt(Math.random() * 1000)) % 3);
+                x = x - ((x - vert[vn][0]) / 2);
+                y = y - ((y - vert[vn][1]) / 2);
+                if (opcionc != "puntos") {
+                    cwxc.fillRect(x, y, 1, 1);
+                } else {
+                    cwxc.fillStyle = "blue";
+                    cwxc.fillRect(xn - 2, yn - 2, 4, 4);
+                    xn = x;
+                    yn = y;
+                    cwxc.fillStyle = "red";
+                    cwxc.fillRect(xn - 2, yn - 2, 4, 4);
+                }
+            }
+        }
+
+        //#################EJEMPLO4#########################//
+        function iniciarEjemplo_wxd() {
+            wxd = document.getElementById("wxd");
+            if (wxd.getContext)
+                cwxd = wxd.getContext("2d");
+            wd = wxd.width;
+            hd = wxd.height;
+            wlimd = 1;
+            hlimd = 1;
+            opciond = "fractal";
+            wdPaso = wd;
+            hdPaso = hd;
+            nPasoD = 1;
+            ejecutarFractalD();
+        }
+
+        function ejecutarFractalD() {
+            if (cwxd) {
+                cwxd.fillStyle = "orange";
+                cwxd.clearRect(0, 0, wd, hd);
+                if (opciond == "fractal") {
+                    fractalD(wd, hd, wd, hd);
+                } else {
+                    fractalD(wd, hd, wd, hd);
+                    var men = "Dibujamos " + nPasoD + " cuadrados de " + Math.round(wdPaso) + " x " + Math.round(hdPaso);;
+                    nPasoD = nPasoD * 8;
+                    wdPaso = wdPaso / 3;
+                    hdPaso = hdPaso / 3;
+                    wlimd = Math.floor(wlimd / 3);
+                    hlimd = Math.floor(hlimd / 3);
+                    if ((wlimd < 1) || (hlimd < 1)) {
+                        men += "<br />FINALIZADO con 1 píxel de resolución.";
+                        cargaOpcionesD("pasos");
+                    }
+                    document.getElementById("men-wxd").innerHTML = men;
+                }
+            }
+        }
+
+        function fractalD(x, y, w, h) {
+            var w = w / 3;
+            var h = h / 3;
+            if ((w > wlimd) && (h > hlimd)) {
+                var desp = Array(-2, 1, 4);
+                for (var i = 0; i < desp.length; i++) {
+                    var xd = x + desp[i] * w;
+                    for (var j = 0; j < desp.length; j++) {
+                        if (!((i == 1) && (j == 1))) {
+                            var yd = y + desp[j] * h;
+                            cwxd.fillRect(xd, yd, w, h);
+                            fractalD(xd, yd, w, h);
+                        }
+                    }
+                }
+            }
+        }
+
+        //#################EJEMPLO 5#########################//
+        function iniciarEjemplo_wxe() {
+            wxe = document.getElementById("wxe");
+            if (wxe.getContext)
+                cwxe = wxe.getContext("2d");
+            we = wxe.width;
+            he = wxe.height;
+            lado = we * 2 / 3;
+            altura = lado * Math.sqrt(3) / 2;
+            opcione = "fractal";
+            wlime = 1;
+            ladoPaso = lado;
+            ejecutarFractalE();
+        }
+
+        function ejecutarFractalE() {
+            if (cwxe) {
+                cwxe.clearRect(0, 0, we, he);
+                cwxe.strokeStyle = "white";
+                cwxe.fillStyle = "navy";
+                cwxe.fillRect(0, 0, we, he);
+                cwxe.fillStyle = "white";
+                var p1x = we / 2 - lado / 2;
+                var p1y = he / 2 - altura / 3;
+                var p2x = p1x + lado;
+                var p2y = p1y;
+                var p3x = p1x + lado / 2;
+                var p3y = p1y + altura;
+                cwxe.beginPath();
+                cwxe.moveTo(p1x, -p1y + he);
+                cwxe.lineTo(p2x, -p2y + he);
+                cwxe.lineTo(p3x, -p3y + he);
+                cwxe.lineTo(p1x, -p1y + he);
+                cwxe.fill();
+                cwxe.closePath();
+                if (opcione == "fractal") {
+                    fractalRecta(p1x, p1y, p3x, p3y);
+                    fractalRecta(p3x, p3y, p2x, p2y);
+                    fractalRecta(p2x, p2y, p1x, p1y);
+                } else {
+                    var men = "";
+                    if (wlime == -1) {
+                        wlime = Math.floor(lado);
+                        men = "Dibujamos un triángulo equilátero de lado " + Math.round(lado) + "<br />";
+                    } else {
+                        fractalRecta(p1x, p1y, p3x, p3y);
+                        fractalRecta(p3x, p3y, p2x, p2y);
+                        fractalRecta(p2x, p2y, p1x, p1y);
+                        ladoPaso = ladoPaso = ladoPaso / 3;
+                        men += "Hemos dividido cada lado en tres partes de " + Math.round(ladoPaso) + " y ponemos " + "un triángulo equilátero en el segmento central.";
+                        wlime = Math.floor(wlime / 3);
+                        if (wlime < 1) {
+                            men += "<br />FINALIZADO con 1 píxel de resolución.";
+                            cargaOpcionesE("pasos");
+                        }
+                    }
+                    document.getElementById("men-wxe").innerHTML = men;
+                }
+            }
+        }
+
+        function fractalRecta(xa, ya, xb, yb) {
+            var largo = Math.sqrt(Math.pow(xb - xa, 2) + Math.pow(yb - ya, 2));
+            if (largo > wlime) {
+                var sx = (xb - xa) / 3;
+                var sy = (yb - ya) / 3;
+                var x1 = xa;
+                var y1 = ya;
+                var x2 = xa + sx;
+                var y2 = ya + sy;
+                var vx = (Math.sqrt(3) / 6) * (xb - xa);
+                var vy = (Math.sqrt(3) / 6) * (yb - ya);
+                var x3 = x1 + ((xb - xa) / 2) - vy;
+                var y3 = y1 + ((yb - ya) / 2) + vx;
+                var x4 = xb - sx;
+                var y4 = yb - sy;
+                var x5 = xb;
+                var y5 = yb;
+                cwxe.beginPath();
+                cwxe.moveTo(xa, -ya + he);
+                cwxe.lineTo(xb, -yb + he);
+                cwxe.stroke();
+                cwxe.closePath();
+                cwxe.beginPath();
+                cwxe.moveTo(x1, -y1 + he);
+                cwxe.lineTo(x2, -y2 + he);
+                cwxe.lineTo(x3, -y3 + he);
+                cwxe.lineTo(x4, -y4 + he);
+                cwxe.lineTo(x5, -y5 + he);
+                cwxe.fill();
+                cwxe.closePath();
+                fractalRecta(x1, y1, x2, y2);
+                fractalRecta(x2, y2, x3, y3);
+                fractalRecta(x3, y3, x4, y4);
+                fractalRecta(x4, y4, x5, y5);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <section>
+        <div class="ejemplo-linea">
+            <h4>Ejemplo<span>:</span></h4>
+            <canvas id="wx" width="256" height="256" class="borde">
+                    <span class="rojo">Elemento <b>canvas</b> no soportado.</span> 
+                </canvas>
+            <div>
+                <input value="Ejecutar" onclick="iniciarEjemplo_wx()" type="button">
+            </div>
+            <hr>
+
+            <canvas id="wxb" width="256" height="256" class="borde">
+                    <span class="rojo">Elemento <b>canvas</b> no soportado.</span> 
+                </canvas>
+            <div>
+                <input value="Ejecutar" onclick="iniciarEjemplo_wxb()" type="button">
+            </div>
+            <hr>
+
+            <canvas id="wxc" width="256" height="256" class="borde">
+                    <span class="rojo">Elemento <b>canvas</b> no soportado.</span> 
+                </canvas>
+            <div>
+                <input value="Ejecutar" onclick="iniciarEjemplo_wxc()" type="button">
+            </div>
+            <hr>
+
+            <canvas id="wxd" width="256" height="256" class="borde">
+                    <span class="rojo">Elemento <b>canvas</b> no soportado.</span> 
+                </canvas>
+            <div>
+                <input value="Ejecutar" onclick="iniciarEjemplo_wxd()" type="button">
+            </div>
+            <hr>
+
+            <canvas id="wxe" width="256" height="256" class="borde">
+                    <span class="rojo">Elemento <b>canvas</b> no soportado.</span> 
+                </canvas>
+            <div>
+                <input value="Ejecutar" onclick="iniciarEjemplo_wxe()" type="button">
+            </div>
+            <hr>
+        </div>
+    </section>
+</body>
+
+</html>
